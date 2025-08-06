@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Draw Registration</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f3f4f6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.75rem 0;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.header h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.form-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    width: 90%;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+}
+
+.form-title {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #374151;
+    margin-bottom: 1.25rem;
+}
+
+.form-group {
+    margin-bottom: .5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.375rem;
+}
+
+.form-input, .form-select {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-select {
+    background-color: white;
+    cursor: pointer;
+}
+
+.form-select option[value=""] {
+    color: #9ca3af;
+}
+
+.submit-btn {
+    width: fit-content;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+    margin-top: 0.5rem;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background-color: #2563eb;
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.footer {
+    background-color: #3b82f6;
+    color: white;
+    text-align: center;
+    padding: 0.75rem 0;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+.loading {
+    display: none;
+}
+
+.loading.show {
+    display: inline;
+}
+
+@media (max-width: 640px) {
+    .header h1 {
+        font-size: 1.125rem;
+    }
+    
+    .form-card {
+        margin: 0.5rem;
+        padding: 1.25rem;
+        max-height: calc(100vh - 120px);
+    }
+    
+    .container {
+        padding: 0.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 0.875rem;
+    }
+}
+
+@media (max-height: 600px) {
+    .header {
+        padding: 0.5rem 0;
+    }
+    
+    .header h1 {
+        font-size: 1rem;
+    }
+    
+    .form-card {
+        padding: 1rem;
+        max-height: calc(100vh - 100px);
+    }
+    
+    .form-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 0.75rem;
+    }
+    
+    .footer {
+        padding: 0.5rem 0;
+        font-size: 0.7rem;
+    }
+}
+
+/* Custom alert styles */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    max-width: 300px;
+}
+
+.alert.success {
+    background-color: #10b981;
+}
+
+.alert.error {
+    background-color: #ef4444;
+}
+
+.alert.show {
+    transform: translateX(0);
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Lucky Draw Lottery Registration</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="form-card">
+            <h2 class="form-title">Register for the Lottery</h2>
+            <form id="luckyDrawForm">
+                <div class="form-group">
+                    <label class="form-label" for="name">Name:</label>
+                    <input class="form-input" type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email:</label>
+                    <input class="form-input" type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="phone_number">Phone Number:</label>
+                    <input class="form-input" type="text" id="phone_number" name="phone_number" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="payment_method">Payment Method:</label>
+                    <select class="form-select" id="payment_method" name="payment_method" required>
+                        <option value="" selected disabled>Select Payment Method</option>
+                        <option value="Easypaisa">Easypaisa</option>
+                        <option value="JazzCash">JazzCash</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="amount_to_pay">Amount to Pay:</label>
+                    <input class="form-input" type="number" id="amount_to_pay" name="amount_to_pay" step="0.01" required>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="default-text">Register and Pay</span>
+                    <span class="loading">Submitting...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Lucky Draw Lottery. All rights reserved.</p>
+    </div>
+
+    <script>
+        function showAlert(message, type = 'success') {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+
+            // Create new alert
+            const alert = document.createElement('div');
+            alert.className = `alert ${type}`;
+            alert.textContent = message;
+            document.body.appendChild(alert);
+
+            // Show alert
+            setTimeout(() => alert.classList.add('show'), 100);
+
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+        }
+
+        document.getElementById('luckyDrawForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const defaultText = submitBtn.querySelector('.default-text');
+            const loadingText = submitBtn.querySelector('.loading');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            defaultText.style.display = 'none';
+            loadingText.classList.add('show');
+            
+            const data = {
+                name: form.name.value,
+                email: form.email.value,
+                phone_number: form.phone_number.value,
+                payment_method: form.payment_method.value,
+                amount_to_pay: form.amount_to_pay.value,
+            };
+
+            try {
+                const res = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await res.text();
+                
+                if (res.ok) {
+                    showAlert(result, 'success');
+                    form.reset(); // Clear the form on success
+                } else {
+                    showAlert(result, 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                defaultText.style.display = 'inline';
+                loadingText.classList.remove('show');
+            }
+        });
+
+        // Add some basic client-side validation feedback
+        const inputs = document.querySelectorAll('.form-input, .form-select');
+        inputs.forEach(input => {
+            input.addEventListener('invalid', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ef4444';
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = '#d1d5db';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
